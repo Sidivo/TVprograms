@@ -8,13 +8,13 @@
 <h:body>
     <h2>person:</h2>
     <ol>
-        <ui:repeat value="#{person.allPersons}" var="person">
-            <li><h:link value="#{person.name}" outcome="players?teamId=#{person.id}" /></li>
+        <ui:repeat value="#{persons.allPersons}" var="person">
+            <li>#{person.username}</li>
         </ui:repeat>
     </ol>
     <h:form>
-        <h:inputText value="#{person.personToCreate.name}" required="true" />
-        <h:commandButton value="Add new person" action="#{person.createPerson}" />
+        <h:inputText value="#{persons.personToCreate.username}" required="true" />
+        <h:commandButton value="Add new person" action="#{persons.createPerson}" />
     </h:form>
     <h:link outcome="mybatispage/persons" value="MyBatis Implementation"/>
 </h:body>
