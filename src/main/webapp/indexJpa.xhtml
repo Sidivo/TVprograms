@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+>
+<h:head/>
+<h:body>
+    <h2>Login</h2>
+    <h:form>
+        <h:inputText value="#{loginJpa.loginDetails.username}" required="true" />
+        <h:inputText value="#{loginJpa.loginDetails.password}" required="true" />
+        <h:commandButton value="Login" action="#{loginJpa.login}" />
+    </h:form>
+    <h:link value="Go to My Batis implementation" outcome="/index"/>
+</h:body>
+</html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head/>
+<h:body>
+    <h2>My TV program: #{programJpa.myTvProgram.title}</h2>
+    <h2>Comment</h2>
+    <ul>
+        <ui:repeat value="#{programJpa.comments}" var="comm">
+            <li> #{comm.username}: #{comm.text} </li>
+        </ui:repeat>
+    </ul>
+    <h2>Write comment</h2>
+    <h:form>
+        Text
+        <h:inputText value="#{programJpa.comment.text}" required="true" />
+        <h:commandButton value="Write" action="#{programJpa.addComment}" outcome="programJpa?id=#{programJpa.myTvProgram.id}">
+            <f:param name="id" value="#{programJpa.myTvProgram.id}"/>
+        </h:commandButton>
+    </h:form>
+    <h:link value="Back" outcome="/personDetailsJpa?id=#{programJpa.myTvProgram.personid}"/>
+    <br/>
+    <h:link value="Loggout" outcome="/indexJpa"/>
+</h:body>
+</html>

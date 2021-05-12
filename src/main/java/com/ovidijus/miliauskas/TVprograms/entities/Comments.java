@@ -1,70 +1,53 @@
 package com.ovidijus.miliauskas.TVprograms.entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Comments.findAll", query = "select t from Comments as t")
+})
+@Table(name = "COMMENTS")
+@Getter
+@Setter
+@AllArgsConstructor
 public class Comments {
-    private Integer id;
-    private Integer personid;
-    private Integer tvprogramid;
-    private String text;
+
+    public Comments() {
+
+    }
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Basic
-    @Column(name = "PERSONID", nullable = true, length = 255)
-    public Integer getPersonid() {
-        return personid;
-    }
+    @Column(name = "TEXT")
+    private String text;
 
-    public void setPersonid(Integer personid) {
-        this.personid = personid;
-    }
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name="PERSONID")
+    private Person person;
 
-    @Basic
-    @Column(name = "TVPROGRAMID", nullable = true, length = 255)
-    public Integer getTvprogramid() {
-        return tvprogramid;
-    }
-
-    public void setTvprogramid(Integer tvprogramid) {
-        this.tvprogramid = tvprogramid;
-    }
-
-    @Basic
-    @Column(name = "TEXT", nullable = true, length = 255)
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name="TVPROGRAMID")
+    private Tvprogram tvprogram;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Comments user = (Comments) o;
-        return Objects.equals(id, user.id) && Objects.equals(personid, user.personid) && Objects.equals(tvprogramid, user.tvprogramid) && Objects.equals(text, user.text);
+        return Objects.equals(id, user.id) && Objects.equals(text, user.text);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, personid, tvprogramid, text);
+        return Objects.hash(id, text);
     }
 }

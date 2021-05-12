@@ -1,9 +1,12 @@
 package com.ovidijus.miliauskas.TVprograms.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,40 +16,36 @@ import java.util.Objects;
 @Table(name = "PERSON", schema = "PUBLIC")
 @Getter
 @Setter
+@AllArgsConstructor
 public class Person {
-    private Integer id;
-    private String username;
-    private String password;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private Integer id;
 
     @Basic
-    @Column(name = "USERNAME", nullable = true)
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    @Column(name = "USERNAME")
+    private String username;
 
     @Basic
-    @Column(name = "PASSWORD", nullable = true)
-    public String getPassword() {
-        return password;
-    }
+    @Column(name = "PASSWORD")
+    private String password;
 
-    public void setPassword(String password) {
-        this.password = password;
+    @ManyToMany(
+            cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "COMMENTS",
+            joinColumns =  @JoinColumn(name = "PERSONID"),
+            inverseJoinColumns = @JoinColumn(name = "TVPROGRAMID")
+    )
+    List<Tvprogram> tvprograms;
+
+    @OneToMany(mappedBy = "person")
+    private List<Comments> comments = new ArrayList<>();
+
+    public Person() {
+
     }
 
     @Override

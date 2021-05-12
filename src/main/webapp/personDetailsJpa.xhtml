@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head/>
+<h:body>
+    <h2>My uploaded TV programs</h2>
+    <ul>
+        <ui:repeat value="#{personDetailsJpa.myTvPrograms}" var="prog">
+            <li> <b><h:link value="#{prog.title}" outcome="programJpa?id=#{prog.id}"/></b> views: #{prog.views}</li>
+        </ui:repeat>
+    </ul>
+    <h2>All TV programs</h2>
+    <ul>
+        <ui:repeat value="#{personDetailsJpa.allTvPrograms}" var="prog">
+            <li> <b><h:link value="#{prog.title}" outcome="programJpa?id=#{prog.id}"/></b> views: #{prog.views}
+                <ul>
+                    <ui:repeat value="#{prog.comments}" var="comm">
+                        <li> My comment: #{comm.text} </li>
+                    </ui:repeat>
+                </ul>
+            </li>
+        </ui:repeat>
+    </ul>
+    <h:link value="Loggout" outcome="/indexJpa"/>
+</h:body>
+</html>

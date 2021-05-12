@@ -1,56 +1,44 @@
 package com.ovidijus.miliauskas.TVprograms.entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Tvprogram.findAll", query = "select t from Tvprogram as t")
+})
+@Table(name = "TVPROGRAM")
+@Getter
+@Setter
+@AllArgsConstructor
 public class Tvprogram {
-    private Integer id;
-    private String title;
-    private String views;
-    private Integer personid;
 
     @Id
     @Column(name = "ID", nullable = false)
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private Integer id;
 
     @Basic
-    @Column(name = "TITLE", nullable = true, length = 255)
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    @Column(name = "TITLE")
+    private String title;
 
     @Basic
-    @Column(name = "VIEWS", nullable = true, length = 255)
-    public String getViews() {
-        return views;
-    }
+    @Column(name = "VIEWS")
+    private String views;
 
-    public void setViews(String views) {
-        this.views = views;
-    }
+    @ManyToMany(mappedBy = "tvprograms")
+    private List<Person> persons;
 
-    @Basic
-    @Column(name = "PERSONID", nullable = true, length = 255)
-    public Integer getPersonid() {
-        return personid;
-    }
+    @OneToMany(mappedBy = "tvprogram")
+    private List<Comments> comments = new ArrayList<>();
 
-    public void setPersonid(Integer personid) {
-        this.personid = personid;
+    public Tvprogram() {
+
     }
 
     @Override
@@ -58,11 +46,11 @@ public class Tvprogram {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tvprogram user = (Tvprogram) o;
-        return Objects.equals(id, user.id) && Objects.equals(title, user.title) && Objects.equals(views, user.views) && Objects.equals(personid, user.personid);
+        return Objects.equals(id, user.id) && Objects.equals(title, user.title) && Objects.equals(views, user.views);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, views, personid);
+        return Objects.hash(id, title, views);
     }
 }
